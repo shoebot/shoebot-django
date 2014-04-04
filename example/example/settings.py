@@ -9,9 +9,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import glob
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+EXAMPLE_BOTS_DIR = os.path.join(BASE_DIR, "shoebot_demos", "bots")
+
+# Absolute paths to BOTS that are allowed to run
+SHOEBOT_ALLOWED_BOTS = glob.glob(EXAMPLE_BOTS_DIR + '/*.bot')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

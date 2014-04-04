@@ -1,29 +1,41 @@
+from django.conf import settings
 from StringIO import StringIO
 
 import shoebot
 
-XML_PREAMBLE = '<?xml version="1.0" encoding="UTF-8"?>'
+XML_PREAMBLE_LENGTH = len('<?xml version="1.0" encoding="UTF-8"?>')
 
-def strip_preamble(buff):
+def bot_allowed(filename):
     """
-    :param buff: buffer with svg data
+    A bot must be in the setting ALLOWED_BOTS
+    otherwise it will not run.
 
-    Skip the preamble in the buffer then output the rest.
+    :param bot_path: full path to bot
+    :return: True if the bot is allowed to run.
     """
-    pass
+    return bot_path in settings.get('SHOEBOT_ALLOWED_BOTS') or []
 
-def run_bot(filename, inline=True, **kwargs):
+
+def render_bot(filename, inline=False, format='svg', **kwargs):
     """
     Run a named bot, and output SVG.
-    """    
+
+    :param inline: If True Output SVG with no XML preamble (suitable for mixing with HTML).
+    """
+
+    if not bot_allowed(filename):
+        raise Exception("Sorry this bot is not on the allowed list")
+    
     buff = StringIO()
-    bot = shoebot.bot(buff=buff, format="svg", **kwargs)
+    bot = shoebot.bot(buff=buff, **kwargs)
     bot.run(filename)
+    bot.finish()
 
     if inline:
-        buff.seek(len(XML_PREAMBLE))
+        buff.seek(XML_PREAMBLE_LENGTH)
     else:
         buff.seek(0)
 
     return buff.read()
+
 
