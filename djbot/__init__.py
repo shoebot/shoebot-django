@@ -29,7 +29,6 @@ def render_bot(filename, inline=False, format='svg', **kwargs):
     buff = StringIO()
     bot = shoebot.bot(buff=buff, **kwargs)
     bot.run(filename)
-    bot.finish()
 
     if inline:
         buff.seek(XML_PREAMBLE_LENGTH)
