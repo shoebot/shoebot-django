@@ -5,7 +5,7 @@ import shoebot
 
 XML_PREAMBLE_LENGTH = len('<?xml version="1.0" encoding="UTF-8"?>')
 
-def bot_allowed(filename):
+def bot_allowed(bot_path):
     """
     A bot must be in the setting ALLOWED_BOTS
     otherwise it will not run.
@@ -13,7 +13,7 @@ def bot_allowed(filename):
     :param bot_path: full path to bot
     :return: True if the bot is allowed to run.
     """
-    return bot_path in settings.get('SHOEBOT_ALLOWED_BOTS') or []
+    return bot_path in getattr(settings, 'SHOEBOT_ALLOWED_BOTS', [])
 
 
 def render_bot(filename, inline=False, format='svg', **kwargs):
