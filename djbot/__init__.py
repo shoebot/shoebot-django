@@ -13,7 +13,7 @@ def bot_allowed(bot_path):
     :param bot_path: full path to bot
     :return: True if the bot is allowed to run.
     """
-    return bot_path in getattr(settings, 'SHOEBOT_ALLOWED_BOTS', [])
+    return bot_path in getattr(sboettings, 'SHOEBOT_ALLOWED_BOTS', [])
 
 
 def render_bot(filename, inline=False, format='svg', **kwargs):
@@ -27,7 +27,7 @@ def render_bot(filename, inline=False, format='svg', **kwargs):
         raise Exception("Sorry this bot is not on the allowed list")
     
     buff = StringIO()
-    bot = shoebot.bot(buff=buff, **kwargs)
+    bot = shoebot.create_bot(buff=buff, **kwargs)
     bot.run(filename)
 
     if inline:
