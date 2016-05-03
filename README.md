@@ -16,6 +16,14 @@ for info getting it working with a virtualenv.
 
 
 
+Example
+-------
+
+The example folder contains a simple django app embedding
+shoebot.
+
+
+
 Similar projects
 ----------------
 
